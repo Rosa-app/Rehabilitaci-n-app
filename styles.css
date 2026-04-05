@@ -1,0 +1,35 @@
+/* styles.css: diseño simple y responsivo */
+:root{
+--primary:#2b7cff;
+--bg:#f6f8fb;
+--card:#ffffff;
+--text:#222;
+}
+*{box-sizing:border-box}
+body{
+font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+margin:0; background:var(--bg); color:var(--text);
+}
+.topbar{
+background:var(--primary); color:white; padding:12px;
+}
+.topbar h1{margin:0;font-size:18px}
+nav{margin-top:8px; display:flex; gap:6px; flex-wrap:wrap}
+.nav-btn{background:rgba(255,255,255,0.12); border:0; color:white; padding:6px 8px; border-radius:6px; cursor:pointer}
+main{padding:12px; max-width:900px; margin:12px auto}
+.page{display:none; background:var(--card); padding:12px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.06); margin-bottom:10px}
+.page.active{display:block}
+.ex-list{list-style:none; padding:0; margin:0}
+.ex-list li{display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #eee}
+.ex-title{font-weight:600}
+.controls{display:flex; gap:10px; align-items:center}
+.btn{background:var(--primary); color:white; border:0; padding:8px 12px; border-radius:6px; cursor:pointer; text-decoration:none}
+.btn.small{padding:6px 8px; font-size:13px}
+.btn.primary{background:#1b5fcc}
+.footer-actions{position:sticky; bottom:10px; display:flex; gap:8px; align-items:center; padding-top:10px}
+.timer-display{font-weight:700; background:#fff; padding:8px 12px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.toast{position:fixed; left:50%; transform:translateX(-50%); bottom:18px; background:#111; color:white; padding:8px 12px; border-radius:8px; display:none}
+@media (max-width:600px){
+nav{overflow:auto}
+.footer-actions{flex-direction:column; align-items:flex-start}
+}
