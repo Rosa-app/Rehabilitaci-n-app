@@ -1,6 +1,6 @@
 /* script.js: lógica de navegación, temporizador, guardado local y enlace a Google Form */
-const NAV = document.querySelectorAll('.nav-btn');
-const PAGES = document.querySelectorAll('.page');
+const NAV = document.querySelectorAll('.nav-btn') || [];
+const PAGES = document.querySelectorAll('.page') || [];
 const timerDisplay = document.getElementById('timer-display');
 const resetTimerBtn = document.getElementById('reset-timer');
 const saveProgressBtn = document.getElementById('save-progress');
@@ -14,103 +14,152 @@ const toast = document.getElementById('toast');
 const GOOGLE_FORM_URL = "https://forms.gle/REEMPLAZA_POR_TU_FORM";
 
 // Mostrar código QR usando la API de Google Charts
+if (openQrBtn) {
 openQrBtn.addEventListener('click', () => {
+
 const url = encodeURIComponent(location.href);
-const qr = https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=${url};
+const qr = `https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=${url}`;
 window.open(qr, '_blank');
 });
+}
 
 // Abrir formulario de Google (para configurar o enviar)
+if (openFormBtn) {
 openFormBtn.addEventListener('click', () => {
+
+if (!GOOGLE_FORM_URL || GOOGLE_FORM_URL.includes('REEMPLAZA_POR_TU_FORM')) {
+  showToast('Configura primero el enlace del formulario (GOOGLE_FORM_URL).');
+  return;
+}
 window.open(GOOGLE_FORM_URL, '_blank');
 });
+}
 
-// Navegación
-NAV.forEach(btn=>{
-btn.addEventListener('click', ()=> {
+// Navegación entre secciones
+NAV.forEach(btn => {
+btn.addEventListener('click', () => {
 
 const tgt = btn.dataset.target;
 PAGES.forEach(p => p.classList.remove('active'));
 const page = document.getElementById(tgt);
 if (page) page.classList.add('active');
-showToast("Sección: " + tgt);
+showToast('Sección: ' + tgt);
 });
 });
 
-// Temporizador básico
+// Temporizador
 let timerInterval = null;
-function formatTime(s){
-const mm = String(Math.floor(s/60)).padStart(2,'0');
-const ss = String(s%60).padStart(2,'0');
+
+function formatTime(s) {
+const mm = String(Math.floor(s / 60)).padStart(2, '0');
+const ss = String(s % 60).padStart(2, '0');
 return ${mm}:${ss};
 }
-document.querySelectorAll('.timer-btn').forEach(b => {
+
+function startTimer(seconds) {
+clearInterval(timerInterval);
+let remaining = Number(seconds) || 0;
+if (timerDisplay) timerDisplay.textContent = formatTime(remaining);
+timerInterval = setInterval(() => {
+
+remaining--;
+if (timerDisplay) timerDisplay.textContent = formatTime(Math.max(remaining, 0));
+if (remaining <= 0) {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  showToast('Temporizador terminado');
+}
+}, 1000);
+}
+
+const timerBtns = document.querySelectorAll('.timer-btn') || [];
+timerBtns.forEach(b => {
 b.addEventListener('click', () => {
 
 const seconds = parseInt(b.dataset.seconds) || 30;
 startTimer(seconds);
 });
 });
-function startTimer(seconds){
-clearInterval(timerInterval);
-let remaining = seconds;
-timerDisplay.textContent = formatTime(remaining);
-timerInterval = setInterval(()=> {
 
-remaining--;
-timerDisplay.textContent = formatTime(Math.max(remaining,0));
-if(remaining <= 0){ clearInterval(timerInterval); showToast("Temporizador terminado"); }
-}, 1000);
+if (resetTimerBtn) {
+resetTimerBtn.addEventListener('click', () => {
+
+clearInterval(timerInterval);
+timerInterval = null;
+if (timerDisplay) timerDisplay.textContent = '00:00';
+showToast('Temporizador detenido');
+});
 }
-resetTimerBtn.addEventListener('click', ()=>{ clearInterval(timerInterval); timerDisplay.textContent = "00:00"; });
 
 // Guardado de progreso en localStorage
-saveProgressBtn.addEventListener('click', ()=> {
-const data = {};
-document.querySelectorAll('.page').forEach(page=>{
+if (saveProgressBtn) {
+saveProgressBtn.addEventListener('click', () => {
 
-const id = page.id;
-const checks = Array.from(page.querySelectorAll('.done-chk')).map(c => c.checked);
-data[id] = checks;
+try {
+  const data = {};
+  document.querySelectorAll('.page').forEach(page => {
+    const id = page.id || 'page';
+    const checks = Array.from(page.querySelectorAll('.done-chk')).map(c => c.checked);
+    data[id] = checks;
+  });
+  localStorage.setItem('rehabProgress', JSON.stringify(data));
+  showToast('Progreso guardado localmente');
+} catch (err) {
+  console.error(err);
+  showToast('Error al guardar progreso');
+}
 });
-localStorage.setItem('rehabProgress', JSON.stringify(datos));
-showToast("Progreso guardado localmente");
-});
+}
 
 // Cargar progreso si existe
-function loadProgress(){
+function loadProgress() {
 const raw = localStorage.getItem('rehabProgress');
-if(!raw) return;
-try{
+if (!raw) return;
+try {
 
 const data = JSON.parse(raw);
-Object.keys(data).forEach(id=>{
+Object.keys(data).forEach(id => {
   const checks = data[id];
   const page = document.getElementById(id);
-  if(!page) return;
-  page.querySelectorAll('.done-chk').forEach((chk,i)=> chk.checked = !!checks[i]);
+  if (!page) return;
+  page.querySelectorAll('.done-chk').forEach((chk, i) => (chk.checked = !!checks[i]));
 });
-}catch(e){
+} catch (e) {
 
 console.error('Error al cargar progreso:', e);
 }
 }
 loadProgress();
 
-// Enviar finalización: abre Google Form con nueva pestaña
-sendCompleteBtn.addEventListener('click', ()=>{
-window.open(GOOGLE_FORM_URL, '_blank');
-showToast("Formulario abierto: marca que completaste la rehabilitación");
-});
+// Enviar finalización: abre Google Form en nueva pestaña
+if (sendCompleteBtn) {
+sendCompleteBtn.addEventListener('click', () => {
 
-// Mensajes pequeños
-function showToast(msg, dur=1800){
+if (!GOOGLE_FORM_URL || GOOGLE_FORM_URL.includes('REEMPLAZA_POR_TU_FORM')) {
+  showToast('Configura primero el enlace del formulario (GOOGLE_FORM_URL).');
+  return;
+}
+window.open(GOOGLE_FORM_URL, '_blank');
+showToast('Formulario abierto: marca que completaste la rehabilitación');
+});
+}
+
+// Helper para toasts
+function showToast(msg, dur = 1800) {
+if (!toast) {
+
+console.log('Toast:', msg);
+return;
+}
 toast.textContent = msg;
 toast.style.display = 'block';
-toast.setAttribute('aria-hidden','false');
-setTimeout(()=> {
+toast.setAttribute('aria-hidden', 'false');
+setTimeout(() => {
 
 toast.style.display = 'none';
-toast.setAttribute('aria-hidden','true');
+toast.setAttribute('aria-hidden', 'true');
 }, dur);
 }
+
+// Inicialización visual
+if (timerDisplay) timerDisplay.textContent = '00:00';
