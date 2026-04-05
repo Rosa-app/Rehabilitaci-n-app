@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rehabilitación en Casa</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+
+<h1>Rehabilitación en Casa</h1>
+<nav id="nav">
+  <button data-target="home" class="nav-btn">Inicio</button>
+  <button data-target="hombro" class="nav-btn">Hombro</button>
+  <button data-target="codo" class="nav-btn">Codo</button>
+  <button data-target="muneca" class="nav-btn">Muñeca</button>
+  <button data-target="dorsal" class="nav-btn">Columna dorsal</button>
+  <button data-target="lumbar" class="nav-btn">Columna lumbar</button>
+</nav>
+</header>
+
+<main id="app">
+
+<section id="home" class="page active">
+  <h2>Bienvenido</h2>
+  <p>Esta app guía 5 secciones de rehabilitación. Selecciona una parte del cuerpo y realiza los ejercicios indicados. Usa el temporizador y las casillas para marcar las series realizadas.</p>
+  <p>Cuando termines todas las secciones pulsa <strong>Enviar Finalización</strong> para registrar que completaste la rehabilitación.</p>
+  <div class="actions">
+    <a id="open-form" class="btn" target="_blank" rel="noopener">Crear/Configurar Form</a>
+    <button id="open-qr" class="btn">Generar QR del sitio</button>
+  </div>
+</section>
+
+<section id="hombro" class="page">
+  <h2>Hombro</h2>
+  <p>Objetivo: Mejorar movilidad y fuerza del hombro.</p>
+  <ul class="ex-list">
+    <li>
+      <div class="ex-title">Rotaciones de hombro (10 rep)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="60">Temporizador 60s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+    <li>
+      <div class="ex-title">Elevaciones laterales (3x10)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="45">Temporizador 45s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<section id="codo" class="page">
+  <h2>Codo</h2>
+  <p>Ejercicios para movilidad y fuerza del codo.</p>
+  <ul class="ex-list">
+    <li>
+      <div class="ex-title">Flexo-extensión (3x12)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="40">Temporizador 40s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<section id="muneca" class="page">
+  <h2>Muñeca</h2>
+  <p>Ejercicios suaves para la muñeca.</p>
+  <ul class="ex-list">
+    <li>
+      <div class="ex-title">Flexión/Extensión (2x15)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="30">Temporizador 30s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<section id="dorsal" class="page">
+  <h2>Columna dorsal</h2>
+  <p>Ejercicios para movilidad y control de la columna dorsal (torácica).</p>
+  <ul class="ex-list">
+    <li>
+      <div class="ex-title">Rotación torácica en cuadrupedia (10 rep por lado)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="45">Temporizador 45s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+    <li>
+      <div class="ex-title">Extensiones suaves de tronco (2x10)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="40">Temporizador 40s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<section id="lumbar" class="page">
+  <h2>Columna lumbar</h2>
+  <p>Ejercicios para estabilidad y alivio lumbar.</p>
+  <ul class="ex-list">
+    <li>
+      <div class="ex-title">Puente de glúteos (3x12)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="50">Temporizador 50s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+    <li>
+      <div class="ex-title">Plancha estática (3x30s)</div>
+      <div class="controls">
+        <button class="timer-btn" data-seconds="30">Temporizador 30s</button>
+        <label><input type="checkbox" class="done-chk"> Hecho</label>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<div class="footer-actions">
+  <div id="timer-display" class="timer-display">00:00</div>
+  <button id="reset-timer" class="btn small">Detener</button>
+  <button id="save-progress" class="btn">Guardar Progreso (local)</button>
+  <button id="send-complete" class="btn primary">Enviar Finalización</button>
+</div>
+</main>
+
+<div id="toast" class="toast" aria-hidden="true"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
