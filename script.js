@@ -76,7 +76,7 @@ const timerBtns = document.querySelectorAll('.timer-btn') || [];
 timerBtns.forEach(b => {
 b.addEventListener('click', () => {
 
-const seconds = parseInt(b.dataset.seconds) || 30;
+const seconds = parseInt(b.dataset.seconds, 10) || 30;
 startTimer(seconds);
 });
 });
