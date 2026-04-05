@@ -114,9 +114,3 @@ toast.style.display = 'none';
 toast.setAttribute('aria-hidden','true');
 }, dur);
 }
-
-Notas importantes antes de guardar:
-
-No traduzcas las palabras claves (const, function, document, window, addEventListener, etc.). Deben quedar en inglés.
-Asegúrese de que en index.html al final esté: <script src="script.js"></script> (para que cargar).
-Comprueba que los data-target de los botones coinciden exactamente con los id de las secciones (p. ej. data-target="dorsal" debe tener <section id="dorsal">).
